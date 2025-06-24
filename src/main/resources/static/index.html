@@ -2,9 +2,33 @@
 <html>
 <head>
     <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta charset="UTF-8" />
 </head>
 <body>
+<h1>Saludo personalizado</h1>
+<form onsubmit="sendUrl(); return false;">
+    <input type="text" id="name" name="name" placeholder="Escribe tu nombre">
+    <input type="submit" value="Enviar">
+</form>
+<div id="responseDiv"></div>
+
+<script>
+    function sendUrl() {
+        const name = document.getElementById("name").value;
+
+        fetch(`http://localhost:8080/greeting?name=${encodeURIComponent(name)}`)
+            .then(response => response.text())
+            .then(data => {
+                // Suponiendo que el servidor devuelve una página HTML
+                document.getElementById("responseDiv").innerHTML = data;
+            })
+            .catch(error => {
+                console.error("Error al llamar al servicio:", error);
+                document.getElementById("responseDiv").innerText = "Hubo un error";
+            });
+    }
+</script>
+
 <p>Get your greeting <a href="/greeting">here</a></p>
 </body>
 </html>
